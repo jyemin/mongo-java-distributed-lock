@@ -17,19 +17,23 @@
 package com.deftlabs.lock.mongo;
 
 // Mongo
-import com.mongodb.Mongo;
-import com.mongodb.MongoURI;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 // JUnit
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
-
 // Java
-import java.util.concurrent.TimeUnit;
 
 /**
  * Test the distributed lock. You must be running mongo on localhost:27017 for this
@@ -185,7 +189,7 @@ public final class DistributedLockIntTests {
     { return _mongo.getDB("mongo-distributed-lock").getCollection("lockHistory"); }
 
     public DistributedLockIntTests() throws Exception {
-        _mongo = new Mongo(new MongoURI("mongodb://127.0.0.1:27017"));
+        _mongo = new MongoClient(new MongoClientURI("mongodb://127.0.0.1:27017"));
     }
 
     private final Mongo _mongo;

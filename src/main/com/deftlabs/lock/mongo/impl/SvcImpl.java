@@ -17,21 +17,23 @@
 package com.deftlabs.lock.mongo.impl;
 
 // Lib
+
 import com.deftlabs.lock.mongo.DistributedLock;
-import com.deftlabs.lock.mongo.DistributedLockSvc;
-import com.deftlabs.lock.mongo.DistributedLockOptions;
-import com.deftlabs.lock.mongo.DistributedLockSvcOptions;
 import com.deftlabs.lock.mongo.DistributedLockException;
-
-// Mongo
+import com.deftlabs.lock.mongo.DistributedLockOptions;
+import com.deftlabs.lock.mongo.DistributedLockSvc;
+import com.deftlabs.lock.mongo.DistributedLockSvcOptions;
 import com.mongodb.Mongo;
-import com.mongodb.MongoURI;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
-// Java
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
+
+// Mongo
+// Java
 
 /**
  * The distributed lock server implementation.
@@ -101,7 +103,7 @@ public final class SvcImpl implements DistributedLockSvc {
         try {
             _lock.lock();
 
-            _mongo = new Mongo(new MongoURI(_options.getMongoUri()));
+            _mongo = new MongoClient(new MongoClientURI(_options.getMongoUri()));
 
             // Init the db/collection.
             LockDao.setup(_mongo, _options);

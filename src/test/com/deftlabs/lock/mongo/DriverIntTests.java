@@ -17,23 +17,27 @@
 package com.deftlabs.lock.mongo;
 
 // Mongo
-import com.mongodb.DB;
-import com.mongodb.Mongo;
-import com.mongodb.MongoURI;
+
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
-import com.mongodb.CommandResult;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 // JUnit
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-import static org.junit.Assert.*;
-
 // Java
-import java.util.concurrent.TimeUnit;
 
 /**
  * Test assumptions about the java driver for mongo.
@@ -119,7 +123,7 @@ public final class DriverIntTests {
     private DB getDb() { return _mongo.getDB("mongo-distributed-lock-test"); }
 
     public DriverIntTests() throws Exception {
-        _mongo = new Mongo(new MongoURI("mongodb://127.0.0.1:27017"));
+        _mongo = new MongoClient(new MongoClientURI("mongodb://127.0.0.1:27017"));
     }
 
     private final Mongo _mongo;
